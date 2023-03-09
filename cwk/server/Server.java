@@ -17,6 +17,9 @@ public class Server
                 System.out.println("\nDate " + date.toString() );
                 System.out.println("Connection made from " + inet.getHostName());
 
+                PrintWriter writer = new PrintWriter(sock.getOutputStream());
+                writer.println("Test 1, 2, 3");
+                writer.close();
             }
         }
         catch(IOException e){

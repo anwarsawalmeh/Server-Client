@@ -11,6 +11,8 @@ public class Client
 			BufferedReader reader = new BufferedReader(
 										new InputStreamReader(
 											cSocket.getInputStream() ) );
+			String message = reader.readLine();
+			System.out.println(message);
 			cSocket.close();
 		}
 		catch(IOException e){
