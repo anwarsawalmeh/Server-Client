@@ -1,3 +1,6 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
 public class Server 
 {
     public void runServer(){
@@ -15,6 +18,10 @@ public class Server
                 System.out.println("Connection made from " + inet.getHostName());
 
             }
+        }
+        catch(IOException e{
+            System.out.println(e);
+
         }
     }
 
