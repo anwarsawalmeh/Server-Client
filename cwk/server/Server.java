@@ -13,13 +13,13 @@ public class Server
             {
                 Socket sock = servSocket.accept();
                 InetAddress inet = sock.getInetAddress();
-                Data date = new Date();
+                Date date = new Date();
                 System.out.println("\nDate " + date.toString() );
                 System.out.println("Connection made from " + inet.getHostName());
 
             }
         }
-        catch(IOException e{
+        catch(IOException e){
             System.out.println(e);
 
         }
@@ -29,6 +29,6 @@ public class Server
 	public static void main( String[] args )
 	{
         Server server = new Server();
-        rever.runServer();
+        server.runServer();
 	}
 }
