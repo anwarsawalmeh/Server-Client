@@ -35,6 +35,10 @@ public class auctionProtocol {
 	// Create the Array List with a Wrapper Object
     private HashMap<String, typeWrap> sp = new HashMap<String, typeWrap>();
 	
+
+
+
+
     public String show(String in){
         return in;
     }
@@ -59,9 +63,8 @@ public class auctionProtocol {
 		if(sp.isEmpty()){
 			return "There are currently no items in this auction.";
 		}
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();;
 		for(String items: sp.keySet()){
-			
 			typeWrap wrapperItems = sp.get(items);
 			System.out.print(items+ " "+wrapperItems.getBid()+" "+wrapperItems.getIpAddress()+" \n");
 			sb.append(items);
@@ -69,7 +72,7 @@ public class auctionProtocol {
 			sb.append(Double.toString(wrapperItems.getBid()));
 			sb.append(" : ");
 			sb.append(wrapperItems.getIpAddress());
-
+			sb.append("\n");
 		}
 
 		return sb.toString();
@@ -84,6 +87,7 @@ public class auctionProtocol {
 				if(bid > wrapperItems.getBid()){
 					wrapperItems.setBid(bid);
 					wrapperItems.setIpAddress(ipAddress);
+					log(item, bid, ipAddress);
 					return "Accepted.";
 				} else if(bid <= wrapperItems.getBid()){
 					return "Rejected.";
@@ -91,6 +95,14 @@ public class auctionProtocol {
 			}
 		}
 		return "";
+	}
+
+	public void log(String item, double bid, String ipAddress){
+		// Create the file in the directory
+		
+		
+
+
 	}
 
     

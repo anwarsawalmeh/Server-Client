@@ -5,10 +5,12 @@ public class Client
 {
 	public void connect(String input){
 			try{
+			// Socket that takes in the IP address and selects the port
 			Socket cSocket = new Socket("localhost", 6000);
-			OutputStream outStream = cSocket.getOutputStream();
-
-			outStream.write(input.getBytes());
+			// Print Writer, takes in arguments
+			PrintWriter clientWriter = new PrintWriter(cSocket.getOutputStream(), true);
+			// allows to write 
+			clientWriter.println(input);
 			BufferedReader reader = new BufferedReader(
 										new InputStreamReader(
 											cSocket.getInputStream()));

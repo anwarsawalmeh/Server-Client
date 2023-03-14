@@ -11,38 +11,42 @@ public class Server
         try
         {
             ServerSocket servSocket = new ServerSocket(6000);
-
+            File logFile = new File("log.txt");
+	        logFile.createNewFile();
+            Date date = new Date();
             while(true)
             {
                 // accepts when the client makes a connection
                 Socket sock = servSocket.accept();
 
+                // Gets the input passed through the socket
                 InputStream inStream = sock.getInputStream();
 
-                byte[] buffer = new byte[1024];
-                int bytesRead = inStream.read(buffer);
-                String message = new String(buffer, 0, bytesRead);
+                // Buffered reader reads the arguments passed through
+                BufferedReader clientInput = new BufferedReader(new InputStreamReader(inStream));
+
+                // Take the input and split it up
+                String command = clientInput.readLine();
+                String[] message = command.split(" ");
+
+                // Allows writing to the client files
+                PrintWriter writer = new PrintWriter(sock.getOutputStream(), true);
                 
-                // split up the string
-                String[] splitCommand = message.split(" ");
-
-                PrintWriter writer = new PrintWriter(sock.getOutputStream());
-
-                if(splitCommand[0].equals("show")){
-                    writer.println(sp.displayItems());
+                if(message[0].equals("show")){
+                    writer.println(sp.displayItems()+"\n");
                     writer.close();
                 }
 
-                if(splitCommand[0].equals("item")){
-                    if(splitCommand.length > 1){
+                if(message[0].equals("item")){
+                    if(message.length > 1){
                         InetAddress inet = sock.getInetAddress();
                         String address = inet.getHostName();
-                        writer.println(sp.addItem(splitCommand[1],0.00,address));
+                        writer.println(sp.addItem(message[1],0.00,address));
                         writer.close();
-                        Date date = new Date();  
+                        // format the date
                         System.out.println("\nDate " + date.toString() );
                         System.out.println("Connection made from " + inet.getHostName());
-                        
+
                     }else{
                         writer.println("Client must input an item");
                         writer.close();
@@ -50,17 +54,25 @@ public class Server
                     }
                 }
 
-                if(splitCommand[0].equals("bid")){
-                    if(splitCommand.length == 1){
+                if(message[0].equals("bid")){
+                    if(message.length == 1){
                         writer.println("Client must input an item");
                         writer.close();
-                    } else if(splitCommand.length == 2){
+                    } else if(message.length == 2){
                         writer.println("Client must make a bid");
                         writer.close();
-                    } else if(splitCommand.length == 3){
+                    } else if(message.length == 3){
                         InetAddress inet = sock.getInetAddress();
-                        writer.println(sp.placeBid(splitCommand[1],
-                        Double.parseDouble(splitCommand[2]), inet.getHostName()));
+                        String bidStatus = sp.placeBid(message[1],
+                        Double.parseDouble(message[2]), inet.getHostName());
+                        writer.println(bidStatus);
+                        
+                        if(bidStatus.equals("Accepted.")){
+                            FileWriter Fwriter = new FileWriter("log.txt");
+                            Fwriter.write(date.toString()+" | "+inet.getHostName()+" | "+message[0]);
+                            Fwriter.close();
+                        }
+
                         writer.close();
                     }
                 }
