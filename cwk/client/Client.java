@@ -3,14 +3,19 @@ import java.net.*;
 
 public class Client 
 {
-	public void connect(String command, String item, int bid){
-		System.out.println(command+" "+" "+item+" "+ bid);
-		if(command == "show"){
+	public void connect(String input){
+		
+			
 			try{
 			Socket cSocket = new Socket("localhost", 6000);
+			OutputStream outStream = cSocket.getOutputStream();
+
+			outStream.write(input.getBytes());
 			BufferedReader reader = new BufferedReader(
 										new InputStreamReader(
 											cSocket.getInputStream()));
+
+			// gets the line from the server writer
 			String message = reader.readLine();
 			System.out.println(message);
 			cSocket.close();
@@ -18,7 +23,7 @@ public class Client
 				System.out.println(e);
 			}
 			
-		}
+		
 		
 		
 	}
@@ -26,14 +31,12 @@ public class Client
 	public static void main( String[] args )
 	{
 		Client client = new Client();
-		if(args.length == 1){
-			client.connect(args[0], null, -1);
+		StringBuilder com = new StringBuilder();
+		for(int count = 0; count < args.length; count++){
+			com = com.append(args[count]);
+			com = com.append(" ");
 		}
-		else if(args.length == 2){
-			client.connect(args[0], args[1], -1);
-		}
-		else if(args.length == 3){
-			client.connect(args[0], args[1], Integer.valueOf(args[2]));
-		}
+		String command = com.toString();
+		client.connect(command);
 	}
 }
