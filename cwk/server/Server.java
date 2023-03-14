@@ -58,7 +58,9 @@ public class Server
                         writer.println("Client must make a bid");
                         writer.close();
                     } else if(splitCommand.length == 3){
-                        writer.println(sp.placeBid());
+                        InetAddress inet = sock.getInetAddress();
+                        writer.println(sp.placeBid(splitCommand[1],
+                        Double.parseDouble(splitCommand[2]), inet.getHostName()));
                         writer.close();
                     }
                 }

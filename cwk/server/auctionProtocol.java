@@ -45,36 +45,48 @@ public class auctionProtocol {
 		if(bid == 0.00){
 			bid_ip = new typeWrap(bid, "<no bids>");
 			sp.put(item, bid_ip);
-			return item + " => " + bid +" => "+ipAddress;
+			return "Success.";
 
 		}else{
 			bid_ip = new typeWrap(bid, ipAddress);
 			sp.put(item, bid_ip);
-			return item + " => " + bid +" => "+ipAddress;
+			return "Success.";
 		}
 		
 	}
 
 	public String displayItems(){
-		if(sp == null){
-			System.out.println("There are currently no items in this auction.");
+		if(sp.isEmpty()){
+			return "There are currently no items in this auction.";
 		}
+		StringBuilder sb = new StringBuilder();
 		for(String items: sp.keySet()){
+			
 			typeWrap wrapperItems = sp.get(items);
 			System.out.print(items+ " "+wrapperItems.getBid()+" "+wrapperItems.getIpAddress()+" \n");
-			
+			sb.append(items);
+			sb.append(" : ");
+			sb.append(Double.toString(wrapperItems.getBid()));
+			sb.append(" : ");
+			sb.append(wrapperItems.getIpAddress());
+
 		}
-		return "";
+
+		return sb.toString();
 	}
 
 	public String placeBid(String item, double bid, String ipAddress){
 		// iterate over the hash map and look at all items
 		for(String items: sp.keySet()){
 			typeWrap wrapperItems = sp.get(items);
-			if(item == items){
+			if(item.equals(items)){
+
 				if(bid > wrapperItems.getBid()){
 					wrapperItems.setBid(bid);
 					wrapperItems.setIpAddress(ipAddress);
+					return "Accepted.";
+				} else if(bid <= wrapperItems.getBid()){
+					return "Rejected.";
 				}
 			}
 		}
