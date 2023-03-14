@@ -4,8 +4,6 @@ import java.net.*;
 public class Client 
 {
 	public void connect(String input){
-		
-			
 			try{
 			Socket cSocket = new Socket("localhost", 6000);
 			OutputStream outStream = cSocket.getOutputStream();
@@ -22,10 +20,6 @@ public class Client
 			}catch(IOException e){
 				System.out.println(e);
 			}
-			
-		
-		
-		
 	}
 
 	public static void main( String[] args )
