@@ -5,14 +5,21 @@ import java.util.*;
 
 public class Server 
 {
-
+    
     public void runServer(){
         auctionProtocol sp =  new auctionProtocol();
+        
         try
         {
             ServerSocket servSocket = new ServerSocket(6000);
+            
+            // Create a file everytime the server is run 
+            // Deletes previous Log.txt files if present
             File logFile = new File("log.txt");
+            logFile.delete();
 	        logFile.createNewFile();
+            
+
             Date date = new Date();
             while(true)
             {
@@ -31,9 +38,9 @@ public class Server
 
                 // Allows writing to the client files
                 PrintWriter writer = new PrintWriter(sock.getOutputStream(), true);
-                
+                FileWriter Fwriter = new FileWriter("log.txt", true);
                 if(message[0].equals("show")){
-                    writer.println(sp.displayItems()+"\n");
+                    writer.println(sp.displayItems());
                     writer.close();
                 }
 
@@ -64,19 +71,20 @@ public class Server
                     } else if(message.length == 3){
                         InetAddress inet = sock.getInetAddress();
                         String bidStatus = sp.placeBid(message[1],
-                        Double.parseDouble(message[2]), inet.getHostName());
+                        Double.parseDouble(message[2]), inet.getHostAddress());
                         writer.println(bidStatus);
                         
                         if(bidStatus.equals("Accepted.")){
-                            FileWriter Fwriter = new FileWriter("log.txt");
-                            Fwriter.write(date.toString()+" | "+inet.getHostName()+" | "+message[0]);
-                            Fwriter.close();
+                            Fwriter.write(date.toString()+" | "+inet.getHostAddress()+" | "+Double.parseDouble(message[2])+"\r\n");
                         }
-
+                        
                         writer.close();
                     }
+                   
                 }
+                Fwriter.close();
             }
+            
         }
         catch(IOException e){
             System.out.println(e);
