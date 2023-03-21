@@ -4,18 +4,23 @@ import java.util.concurrent.*;
 
 public class Server{
     public static void main(String args[]){
-        auctionProtocol sp =  new auctionProtocol();
+        AuctionProtocol sp =  new AuctionProtocol();
         ServerSocket server = null;
         ExecutorService service = null;
 
         try{
             server = new ServerSocket(6000);
             service = Executors.newFixedThreadPool(30);
+            
+            File logFile = new File("log.txt");
+            logFile.delete();
+	        logFile.createNewFile();
+            
             while(true){
             Socket client = server.accept();
             service.execute(new Runnable(){
                 public void run(){
-                    new clientHandler(client, sp).runServer();
+                    new ClientHandler(client, sp).runServer();
                 }
             });
            

@@ -17,7 +17,12 @@ public class Client
 
 			// gets the line from the server writer
 			String message = reader.readLine();
-			System.out.println(message);
+			String[] splitted = message.split(",");
+			// System.out.println(splitted[0]);
+			for(int count = 0; count < splitted.length; count++){
+				System.out.println(splitted[count]);
+			}
+			
 			cSocket.close();
 			}catch(IOException e){
 				System.out.println(e);
