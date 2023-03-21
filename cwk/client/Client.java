@@ -6,7 +6,7 @@ public class Client
 	public void connect(String input){
 			try{
 			// Socket that takes in the IP address and selects the port
-			Socket cSocket = new Socket("localhost", 6000);
+			Socket cSocket = new Socket("localhost", 6060);
 			// Print Writer, takes in arguments
 			PrintWriter clientWriter = new PrintWriter(cSocket.getOutputStream(), true);
 			// allows to write 

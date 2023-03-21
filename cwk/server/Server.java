@@ -9,7 +9,7 @@ public class Server{
         ExecutorService service = null;
 
         try{
-            server = new ServerSocket(6000);
+            server = new ServerSocket(6060);
             service = Executors.newFixedThreadPool(30);
             
             File logFile = new File("log.txt");
