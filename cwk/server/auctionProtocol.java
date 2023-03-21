@@ -32,7 +32,7 @@ public class auctionProtocol {
 	}
 	
 	// Create the Array List with a Wrapper Object
-    private HashMap<String, info> sp = new HashMap<String, info>();
+    public HashMap<String, info> sp = new HashMap<String, info>();
 
     public String show(String in){
         return in;
